@@ -1,6 +1,7 @@
 const fs = require('node:fs/promises');
+const path = require('path');
 
-const filePath = '/Users/cgrigori/source/repos/aoc_2023/day_1/1_1_puzzle_input.txt';
+const filePath = path.join(__dirname, '1_1_puzzle_input.txt');
 
 async function readFileFrom(filePath) {
   try {
@@ -13,17 +14,14 @@ async function readFileFrom(filePath) {
 
 async function solve() {
     let input = await readFileFrom(filePath);
-
-    let sum = 0;
     
-    input.forEach(line => {
-        let digits = line.match(/\d/g);
-        let first = digits[0];
-        let second = digits.slice(-1);
-        let number = +(first + second);
-
-        sum += number;
-    })
+    let sum = input.reduce((accumulator, currentValue) => {
+      let digits = currentValue.match(/\d/g);
+      let first = digits[0];
+      let second = digits.slice(-1);
+      let number = +(first + second);
+      return accumulator + number;
+    }, 0);
 
     console.log(sum);
 }
