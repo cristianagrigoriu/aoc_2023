@@ -32,22 +32,31 @@ function getStringDigitFrom(digitOrString) {
   return stringsToDigits[digitOrString];
 }
 
-async function solve() {
-    let input = await readFileFrom(filePath);
+function getReverse(word) {
+  return word.split("").reverse().join("");
+}
 
-    const regex = /(?:\d|one|two|three|four|five|six|seven|eight|nine)/gi;
+async function solve() {
+    const input = await readFileFrom(filePath);
+
+    const regex = /(\d|one|two|three|four|five|six|seven|eight|nine)/i;
+    const reverseRegex = /(\d|eno|owt|eerht|ruof|evif|xis|neves|thgie|enin)/i;
 
     let sum = input.reduce((accumulator, currentValue) => {
-      let digits = currentValue.match(regex);
+      let firstDigit = currentValue.match(regex)[0];
 
-      let first = getStringDigitFrom(digits[0]);
-      let last = getStringDigitFrom(digits.slice(-1));
+      const reverse = getReverse(currentValue);
+      const reverseLastDigit = reverse.match(reverseRegex)[0];
+      const lastDigit = getReverse(reverseLastDigit);
 
-      let number = +(first + last);
+      const first = getStringDigitFrom(firstDigit);
+      const last = getStringDigitFrom(lastDigit);
+
+      const number = +(first + last);
       return accumulator + number;
     }, 0);
 
-    console.log(sum); //55725
+    console.log(sum); //55725, 55701
 }
 
 solve();
