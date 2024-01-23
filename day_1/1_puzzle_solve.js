@@ -1,15 +1,11 @@
-const fs = require('node:fs/promises');
-const path = require('path');
+import * as fileHelper from '../helpers/fileHelper.js';
+import { fileURLToPath } from 'url';
+import path from 'path';
 
-const filePath = path.join(__dirname, '1_1_puzzle_input.txt');
-
-async function readFileFrom(filePath) {
-  try {
-    const data = await fs.readFile(filePath, { encoding: 'utf8' });
-    return data.toString().split('\r\n');
-  } catch (err) {
-    console.log(err);
-  }
+function getFilePath(fileName) {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  return path.join(__dirname, fileName);
 }
 
 function getStringDigitFrom(digitOrString) {
@@ -37,7 +33,7 @@ function getReverse(word) {
 }
 
 async function solve() {
-    const input = await readFileFrom(filePath);
+    const input = await fileHelper.default.readFileFrom(getFilePath('1_puzzle_input.txt'));
 
     const regex = /(\d|one|two|three|four|five|six|seven|eight|nine)/i;
     const reverseRegex = /(\d|eno|owt|eerht|ruof|evif|xis|neves|thgie|enin)/i;
