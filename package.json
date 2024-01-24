@@ -1,3 +1,28 @@
 {
-    "type": "module"
+  "name": "aoc2023",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
+  },
+  "description": "My attempt to solve Advent of Code 2023 challenges using js",
+  "main": "-",
+  "devDependencies": {},
+  "scripts": {
+    "test": "-"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cristianagrigoriu/aoc_2023.git"
+  },
+  "keywords": [
+    "-"
+  ],
+  "author": "Cristiana Grigoriu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cristianagrigoriu/aoc_2023/issues"
+  },
+  "homepage": "https://github.com/cristianagrigoriu/aoc_2023#readme"
 }

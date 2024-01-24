@@ -17,6 +17,6 @@ function getFilePath(fileName) {
     return path.join(__dirname, fileName);
   }
 
-export default {
-    readFileFrom: readFileFrom
+export {
+    readFileFrom
 };
