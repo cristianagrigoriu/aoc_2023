@@ -2,7 +2,9 @@ import fs from 'node:fs/promises';
 import { fileURLToPath } from 'url';
 import path from 'path';
 
-async function readFileFrom(filePath) {
+async function readFileFrom(fileName) {
+    const filePath = getFilePath(fileName);
+    
     try {
         const data = await fs.readFile(filePath, { encoding: 'utf8' });
         return data.toString().split('\r\n');
