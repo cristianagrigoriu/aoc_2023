@@ -7,7 +7,6 @@ const MAX_BLUE_CUBES = 14;
 function getGamesWithRevealsFrom(input) {
     const games = [];
     input.forEach(game => {
-        const gameId = game.split(':')[0].split(' ')[1]; //?
         const revealsInput = game.split(':')[1].split(';');
         const reveals = [];
         revealsInput.forEach(reveal => {
@@ -24,7 +23,7 @@ function getGamesWithRevealsFrom(input) {
     return games;
 }
 
-function getGamesWithToTalNumberOfCubesFrom(gamesWithReveals) {
+function getGamesWithTotalNumberOfCubesFrom(gamesWithReveals) {
     const games = [];
     return gamesWithReveals.map(reveals => {
         const drawsPerColour = [];
@@ -49,10 +48,16 @@ function gameIsPossible(game) {
 
 function getSumOfGamesPossible(gamesPerColour) {
     return gamesPerColour.reduce((accumulator, currentValue, currentIndex) => {
-        if (gameIsPossible(currentValue)){
+        const gamePossible = currentValue.every(reveal => {
+            if (!gameIsPossible(reveal)){
+                return false;
+            }
+            return true;
+        });
+        if (gamePossible) {
             return accumulator + currentIndex + 1;
         }
-        return accumulator;
+        return accumulator; 
     }, 0);
 }
 
@@ -60,10 +65,9 @@ async function solve() {
     const input = await readFileFrom('2_puzzle_input.txt');
 
     const gamesWithReveals = getGamesWithRevealsFrom(input);
-    const gamesPerColour = getGamesWithToTalNumberOfCubesFrom(gamesWithReveals);
-    const sumOfGamesPossible = getSumOfGamesPossible(gamesPerColour);
+    const sumOfGamesPossible = getSumOfGamesPossible(gamesWithReveals);
 
-    console.log(sumOfGamesPossible); //426 - too low
+    console.log(sumOfGamesPossible); //2795
 }
 
 solve();
