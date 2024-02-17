@@ -23,21 +23,19 @@ function getGamesWithRevealsFrom(input) {
     return games;
 }
 
-function getGamesWithTotalNumberOfCubesFrom(gamesWithReveals) {
-    const games = [];
-    return gamesWithReveals.map(reveals => {
-        const drawsPerColour = [];
-        reveals.map(reveal => {
-            const colours = Object.keys(reveal);
-            
-            colours.map(colour => {
-                drawsPerColour[colour] = drawsPerColour[colour] === undefined 
-                ? (+reveal[colour])
-                : drawsPerColour[colour] + (+reveal[colour]);
-            });
-        })
-        return drawsPerColour;
-    });
+function getPowerOfMinimumSetFrom(gamesWithReveals) {
+    const maxPerColourPerReveal = gamesWithReveals.reduce((maxPerColour, reveal) => {
+        const colours = Object.keys(reveal);
+        
+        colours.map(colour => {
+            maxPerColour[colour] = maxPerColour[colour] === undefined 
+            ? (+reveal[colour])
+            : Math.max(maxPerColour[colour], +reveal[colour]);
+        });
+        return maxPerColour;
+    }, []);
+
+    return maxPerColourPerReveal['red'] * maxPerColourPerReveal['green'] * maxPerColourPerReveal['blue'];
 }
 
 function gameIsPossible(game) {
@@ -61,13 +59,22 @@ function getSumOfGamesPossible(gamesPerColour) {
     }, 0);
 }
 
+function getSumOfPowerOfMinimumSets(gamesPerColour) {
+    return gamesPerColour.reduce((accumulator, currentValue) => {
+        const power = getPowerOfMinimumSetFrom(currentValue);
+        return accumulator + power; 
+    }, 0);
+}
+
 async function solve() {
     const input = await readFileFrom('2_puzzle_input.txt');
 
     const gamesWithReveals = getGamesWithRevealsFrom(input);
     const sumOfGamesPossible = getSumOfGamesPossible(gamesWithReveals);
+    const sumOfPowerOfMinimumSets = getSumOfPowerOfMinimumSets(gamesWithReveals);
 
     console.log(sumOfGamesPossible); //2795
+    console.log(sumOfPowerOfMinimumSets); //75561
 }
 
 solve();
